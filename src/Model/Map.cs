@@ -8,9 +8,9 @@ namespace thegame.Model
 {
     public class Map
     {
-        private CellType[,] map;
-        private int width;
-        private int height;
+        public CellType[,] map;
+        public int width;
+        public int height;
         private string str;
         public Map(int width, int height) {
             this.height = height;

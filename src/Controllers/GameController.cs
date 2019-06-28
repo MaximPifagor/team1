@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using thegame.Service;
 using thegame.DTO;
 using thegame.Model;
 
