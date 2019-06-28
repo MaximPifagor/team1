@@ -1,4 +1,5 @@
 .cell {
+    background-size: contain;
     display: inline-block;
     vertical-align: top;
     width: 64px;
@@ -6,15 +7,15 @@
 }
 
 .cell_wall {
-    background-image: url(images/bricks2.png);
+    background-image: url(./images/bricks2.png);
 }
 
 .cell_box {
-    background-image: url(images/package.svg);
+    background-image: url(./images/package.svg);
 }
 
 .cell_player {
-    background-image: url(images/unicorn.svg)
+    background-image: url(./images/unicorn.svg)
 }
 
 .cell_target {
