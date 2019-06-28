@@ -1,17 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace thegame.Model
 {
-    public class Map: IMap
+    public class Map
     {
         public CellType[,] map;
         public readonly int Width;
         public readonly int Height;
         private string description;
+
+        public CellType this[Point p]
+        {
+            get => map[p.X, p.Y];
+            set => map[p.X, p.Y] = value;
+        }
 
         public Map(string description, int width, int height)
         {
@@ -25,12 +32,6 @@ namespace thegame.Model
                 for (var j = 0; j < height; j++)
                     map[i, j] = (CellType) int.Parse(description[strIndex++] + "");
             this.description = description;
-        }
-
-        public Map Clone()
-        {
-            //string st = (string)description.Clone();
-            return new Map(description, Width, Height);
         }
 
         public string Serialize()
