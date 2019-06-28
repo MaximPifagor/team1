@@ -53,6 +53,17 @@ export default class App extends React.Component {
         );
     }
 
+    renderModal(title, body) {
+        alert(title + "\n" + body);
+        /*return (
+            <div className={styles.popup}><!--
+                --><div className={}>
+
+            </div><!--
+            --></div>
+        );*/
+    }
+
     notifyMovement(direction) {
         fetch('/api/game/' + this.state.id + '?movement=' + direction)
             .then(response => {
@@ -68,12 +79,13 @@ export default class App extends React.Component {
                     map: mapArr,
                     playerCoords
                 });
+                if (data.hasOwnProperty('isFinished') && data.isFinished) {
+                    this.renderModal('Поздравляем!', 'Вы успешно прошли уровень.');
+                }
             });
     }
 
     keyUpEventHandler = (event) => {
-        console.dir(event);
-        console.dir(event.keyCode);
         const DIRECTIONS = {
             37: 1,
             38: 2,
@@ -81,8 +93,6 @@ export default class App extends React.Component {
             40: 3
         };
         const CODE = event.keyCode;
-        console.dir(CODE);
-        console.dir(DIRECTIONS.hasOwnProperty(CODE));
         if (!DIRECTIONS.hasOwnProperty(CODE)) {
             return;
         }
