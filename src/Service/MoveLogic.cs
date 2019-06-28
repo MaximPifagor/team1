@@ -14,18 +14,12 @@ namespace thegame.Service
             var resultMap = map;
 
             if (map.map[currentCell.X, currentCell.Y] == CellType.Wall)
-            {
                 return map;
-            }
 
             if (map.map[player.X, player.Y] == CellType.Player)
-            {
                 resultMap = SimplePlayerMove(player, currentCell, map, movement);
-            }
             else
-            {
                 resultMap = PlayerWarehouseMove(player, currentCell, map, movement);
-            }
             
             return resultMap;
         }
@@ -170,9 +164,9 @@ namespace thegame.Service
 
         public static Point FindPlayer(Map map)
         {
-            for (int x = 0; x < map.width; x++)
+            for (int x = 0; x < map.Width; x++)
             {
-                for (int y = 0; y < map.height; y++)
+                for (int y = 0; y < map.Height; y++)
                 {
                     if (map.map[x, y] == CellType.Player || map.map[x, y] == CellType.PlayerAndWareHouse)
                     {

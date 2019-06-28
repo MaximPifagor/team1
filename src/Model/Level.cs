@@ -22,8 +22,8 @@ namespace thegame.Model
 
         public static bool IsFinished(Map map)
         {
-            for (var i = 0; i < map.width; i++)
-                for (var j = 0; j < map.height; j++)
+            for (var i = 0; i < map.Width; i++)
+                for (var j = 0; j < map.Height; j++)
                     if (map.map[i, j] == CellType.Box)
                         return false;
             return true;

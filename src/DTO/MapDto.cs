@@ -10,7 +10,6 @@ namespace thegame.DTO
     {
         public string map { get; set; } 
         public Guid id { get; set; }
-
         public bool isFinished { get; set; }
     }
 }
