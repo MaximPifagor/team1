@@ -39,7 +39,7 @@ namespace thegame.Controllers
             var dto = new MapDto();
             dto.map = mapNew.Serialize();
             dto.id = id;
-            if (Level.IsFinished(mapNew))
+            if (MoveLogic.IsFinished(mapNew))
                 dto.isFinished = true;
             return Ok(dto);
         }
