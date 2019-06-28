@@ -1,0 +1,22 @@
+.cell {
+    display: inline-block;
+    vertical-align: top;
+    width: 64px;
+    height: 64px;
+}
+
+.cell_wall {
+    background-image: url(images/bricks2.png);
+}
+
+.cell_box {
+    background-image: url(images/package.svg);
+}
+
+.cell_player {
+    background-image: url(images/unicorn.svg)
+}
+
+.cell_target {
+    background-image: radial-gradient(#9000ff 0, #9000ff 15%, transparent 17%, transparent 100%)
+}
