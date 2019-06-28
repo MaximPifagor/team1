@@ -13,6 +13,7 @@ const cellTypes = {
 
 export default class Cell extends React.Component {
     render() {
-        return <div className={styles.cell + ' ' + styles['cell_' + cellTypes[this.props.type]]}></div>
+        const size = this.props.size + '%';
+        return <div className={styles.cell + ' ' + styles['cell_' + cellTypes[this.props.type]]} style={{width: size, height: size }}></div>
     }
 }

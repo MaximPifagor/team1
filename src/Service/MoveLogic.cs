@@ -168,7 +168,7 @@ namespace thegame.Service
             return map;
         }
 
-        static Point FindPlayer(Map map)
+        public static Point FindPlayer(Map map)
         {
             for (int x = 0; x < map.width; x++)
             {

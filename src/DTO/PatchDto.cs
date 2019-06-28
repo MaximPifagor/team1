@@ -6,11 +6,9 @@ using thegame.Model;
 
 namespace thegame.DTO
 {
-    public class MapDto
+    public class PatchDto
     {
-        public string map { get; set; } 
-        public Guid id { get; set; }
+        public Movement movement { get; set; }
 
-        public bool isFinished { get; set; }
     }
 }
