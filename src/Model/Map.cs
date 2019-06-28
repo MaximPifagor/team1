@@ -12,11 +12,11 @@ namespace thegame.Model
         public int width;
         public int height;
         private string str;
-        public Map(int width, int height) {
-            this.height = height;
-            this.width = width;
-            this.map = new CellType[width, height];
-        }
+        //public Map(int width, int height) {
+        //    this.height = height;
+        //    this.width = width;
+        //    this.map = new CellType[width, height];
+        //}
 
         public Map(String str, int width, int height) {
             this.width = width;
@@ -37,11 +37,6 @@ namespace thegame.Model
             this.str = str;
 
         }
-
-
-
-       
-
         public string Serialize() {
             //return "1,1,1,1,1 " + "1,0,4,0,1 " + "1,0,3,0,1 " + "1,0,2,0,1 " + "1,1,1,1,1";
             StringBuilder newStr = new StringBuilder();

@@ -9,6 +9,6 @@ namespace thegame.Model
     public interface IRepository
     {
         Map GetMapById(Guid id);
-        MapDto CreateMap();
+        MapDto CreateMap(int LevelId);
     }
 }
