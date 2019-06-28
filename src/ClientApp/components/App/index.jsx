@@ -14,7 +14,7 @@ export default class App extends React.Component {
             id: 0,
             modalVisible: false,
             isFinished: false,
-            level: 1
+            level: 0
         };
         this.keyListener = null;
         this.wonMessage = {
@@ -46,7 +46,8 @@ export default class App extends React.Component {
     }
 
     startLevel = () => {
-        const URL = '/api/game' + (this.state.level === 1 ? '' : '?level=' + this.state.level);
+        console.dir(this.state.level > 0);
+        const URL = '/api/game' + (this.state.level === 0 ? '' : ('?level=' + this.state.level));
         fetch(URL)
             .then(response => {
                 if (response.ok) {
@@ -59,7 +60,8 @@ export default class App extends React.Component {
                 this.setState({
                     map: mapArr,
                     id: data.id,
-                    isFinished: data.isFinished
+                    isFinished: data.isFinished,
+                    level: this.state.level + 1
                 });
                 return;
             });
