@@ -19,6 +19,8 @@ namespace thegame.Model
         }
 
         public Map(String str, int width, int height) {
+            this.width = width;
+            this.height = height;
             if (str.Length != width * height) {
                 throw new Exception();
             }
@@ -41,7 +43,7 @@ namespace thegame.Model
        
 
         public string Serialize() {
-            return "1,1,1,1,1 " + "1,0,4,0,1 " + "1,0,3,0,1 " + "1,0,2,0,1 " + "1,1,1,1,1";
+            //return "1,1,1,1,1 " + "1,0,4,0,1 " + "1,0,3,0,1 " + "1,0,2,0,1 " + "1,1,1,1,1";
             StringBuilder newStr = new StringBuilder();
             for (int i = 0; i < width; i++)
             {
