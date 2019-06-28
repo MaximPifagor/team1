@@ -6,126 +6,112 @@ namespace thegame.Service
 {
     public static class MoveLogic
     {
+        public static bool IsFinished(Map map)
+        {
+            for (var i = 0; i < map.Width; i++)
+                for (var j = 0; j < map.Height; j++)
+                    if (map.map[i, j] == CellType.Box)
+                        return false;
+            return true;
+        }
+
         public static Map Move(Movement movement, Map map)
         {
             var player = FindPlayer(map);
             var currentCell = CurrentCell(movement, player);
-            if (map.map[currentCell.X, currentCell.Y] == CellType.Wall)
+            if (map[currentCell] == CellType.Wall)
                 return map;
-            if (map.map[player.X, player.Y] == CellType.Player)
+            if (map[player] == CellType.Player)
                 return SimplePlayerMove(player, currentCell, map, movement);
             return PlayerWarehouseMove(player, currentCell, map, movement);
         }
 
         private static Map SimplePlayerMove(Point player, Point currentCell, Map map, Movement movement)
         {
-            if (map.map[currentCell.X, currentCell.Y] == CellType.Empty)
-            {
-                map.map[currentCell.X, currentCell.Y] = CellType.Player;
-                map.map[player.X, player.Y] = CellType.Empty;
-            }
-            if (map.map[currentCell.X, currentCell.Y] == CellType.Warehouse)
-            {
-                map.map[currentCell.X, currentCell.Y] = CellType.PlayerAndWareHouse;
-                map.map[player.X, player.Y] = CellType.Empty;
-            }
-            if (map.map[currentCell.X, currentCell.Y] == CellType.Box)
+            if (map[currentCell] == CellType.Empty)
+                AssignNewMapPoints(map, Tuple.Create(player, CellType.Empty), Tuple.Create(currentCell, CellType.Player));
+            if (map[currentCell] == CellType.Warehouse)
+                AssignNewMapPoints(map, Tuple.Create(player, CellType.Empty), Tuple.Create(currentCell, CellType.PlayerAndWareHouse));
+            if (map[currentCell] == CellType.Box)
             {
                 var nextCell = CurrentCell(movement, currentCell);
-                if (map.map[nextCell.X, nextCell.Y] == CellType.Wall
-                    || map.map[nextCell.X, nextCell.Y] == CellType.Box
-                    || map.map[nextCell.X, nextCell.Y] == CellType.WarehouseBox)
+                if (map[nextCell] == CellType.Wall || map[nextCell] == CellType.Box || map[nextCell] == CellType.WarehouseBox)
                     return map;
-                if (map.map[nextCell.X, nextCell.Y] == CellType.Empty)
-                {
-                    map.map[player.X, player.Y] = CellType.Empty;
-                    map.map[currentCell.X, currentCell.Y] = CellType.Player;
-                    map.map[nextCell.X, nextCell.Y] = CellType.Box;
-                }
-                if (map.map[nextCell.X, nextCell.Y] == CellType.Warehouse)
-                {
-                    map.map[player.X, player.Y] = CellType.Empty;
-                    map.map[currentCell.X, currentCell.Y] = CellType.Player;
-                    map.map[nextCell.X, nextCell.Y] = CellType.WarehouseBox;
-                }
+                if (map[nextCell] == CellType.Empty)
+                    AssignNewMapPoints(map,
+                        Tuple.Create(player, CellType.Empty),
+                        Tuple.Create(currentCell, CellType.Player),
+                        Tuple.Create(nextCell, CellType.Box));
+                if (map[nextCell] == CellType.Warehouse)
+                    AssignNewMapPoints(map,
+                        Tuple.Create(player, CellType.Empty),
+                        Tuple.Create(currentCell, CellType.Player),
+                        Tuple.Create(nextCell, CellType.WarehouseBox));
             }
-            if (map.map[currentCell.X, currentCell.Y] == CellType.WarehouseBox)
+            if (map[currentCell] == CellType.WarehouseBox)
             {
                 var nextCell = CurrentCell(movement, currentCell);
-                if (map.map[nextCell.X, nextCell.Y] == CellType.Wall
-                    || map.map[nextCell.X, nextCell.Y] == CellType.Box
-                    || map.map[nextCell.X, nextCell.Y] == CellType.WarehouseBox)
+                if (map[nextCell] == CellType.Wall || map[nextCell] == CellType.Box || map[nextCell] == CellType.WarehouseBox)
                     return map;
-                if (map.map[nextCell.X, nextCell.Y] == CellType.Empty)
-                {
-                    map.map[player.X, player.Y] = CellType.Empty;
-                    map.map[currentCell.X, currentCell.Y] = CellType.PlayerAndWareHouse;
-                    map.map[nextCell.X, nextCell.Y] = CellType.Box;
-                }
-                if (map.map[nextCell.X, nextCell.Y] == CellType.Warehouse)
-                {
-                    map.map[player.X, player.Y] = CellType.Empty;
-                    map.map[currentCell.X, currentCell.Y] = CellType.PlayerAndWareHouse;
-                    map.map[nextCell.X, nextCell.Y] = CellType.WarehouseBox;
-                }
+                if (map[nextCell] == CellType.Empty)
+                    AssignNewMapPoints(map,
+                        Tuple.Create(player, CellType.Empty),
+                        Tuple.Create(currentCell, CellType.PlayerAndWareHouse),
+                        Tuple.Create(nextCell, CellType.Box));
+                if (map[nextCell] == CellType.Warehouse)
+                    AssignNewMapPoints(map,
+                        Tuple.Create(player, CellType.Empty),
+                        Tuple.Create(currentCell, CellType.PlayerAndWareHouse),
+                        Tuple.Create(nextCell, CellType.WarehouseBox));
             }
             return map;
         }
 
         private static Map PlayerWarehouseMove(Point player, Point currentCell, Map map, Movement movement)
         {
-            if (map.map[currentCell.X, currentCell.Y] == CellType.Empty)
-            {
-                map.map[currentCell.X, currentCell.Y] = CellType.Player;
-                map.map[player.X, player.Y] = CellType.Warehouse;
-            }
-            if (map.map[currentCell.X, currentCell.Y] == CellType.Warehouse)
-            {
-                map.map[currentCell.X, currentCell.Y] = CellType.PlayerAndWareHouse;
-                map.map[player.X, player.Y] = CellType.Warehouse;
-            }
-            if (map.map[currentCell.X, currentCell.Y] == CellType.Box)
+            if (map[currentCell] == CellType.Empty)
+                AssignNewMapPoints(map, Tuple.Create(player, CellType.Warehouse), Tuple.Create(currentCell, CellType.Player));
+            if (map[currentCell] == CellType.Warehouse)
+                AssignNewMapPoints(map, Tuple.Create(player, CellType.Warehouse), Tuple.Create(currentCell, CellType.PlayerAndWareHouse));
+            if (map[currentCell] == CellType.Box)
             {
                 var nextCell = CurrentCell(movement, currentCell);
-                if (map.map[nextCell.X, nextCell.Y] == CellType.Wall
-                    || map.map[nextCell.X, nextCell.Y] == CellType.Box
-                    || map.map[nextCell.X, nextCell.Y] == CellType.WarehouseBox)
+                if (map[nextCell] == CellType.Wall || map[nextCell] == CellType.Box || map[nextCell] == CellType.WarehouseBox)
                     return map;
-                if (map.map[nextCell.X, nextCell.Y] == CellType.Empty)
-                {
-                    map.map[player.X, player.Y] = CellType.Warehouse;
-                    map.map[currentCell.X, currentCell.Y] = CellType.Player;
-                    map.map[nextCell.X, nextCell.Y] = CellType.Box;
-                }
-                if (map.map[nextCell.X, nextCell.Y] == CellType.Warehouse)
-                {
-                    map.map[player.X, player.Y] = CellType.Warehouse;
-                    map.map[currentCell.X, currentCell.Y] = CellType.Player;
-                    map.map[nextCell.X, nextCell.Y] = CellType.WarehouseBox;
-                }
+                if (map[nextCell] == CellType.Empty)
+                    AssignNewMapPoints(map,
+                        Tuple.Create(player, CellType.Warehouse),
+                        Tuple.Create(currentCell, CellType.Player),
+                        Tuple.Create(nextCell, CellType.Box));
+                if (map[nextCell] == CellType.Warehouse)
+                    AssignNewMapPoints(map,
+                        Tuple.Create(player, CellType.Warehouse),
+                        Tuple.Create(currentCell, CellType.Player),
+                        Tuple.Create(nextCell, CellType.WarehouseBox));
             }
-            if (map.map[currentCell.X, currentCell.Y] == CellType.WarehouseBox)
+            if (map[currentCell] == CellType.WarehouseBox)
             {
                 var nextCell = CurrentCell(movement, currentCell);
-                    
-                if (map.map[nextCell.X, nextCell.Y] == CellType.Wall
-                    || map.map[nextCell.X, nextCell.Y] == CellType.Box
-                    || map.map[nextCell.X, nextCell.Y] == CellType.WarehouseBox)
+                if (map[nextCell] == CellType.Wall || map[nextCell] == CellType.Box || map[nextCell] == CellType.WarehouseBox)
                     return map;
-                if (map.map[nextCell.X, nextCell.Y] == CellType.Empty)
-                {
-                    map.map[player.X, player.Y] = CellType.Warehouse;
-                    map.map[currentCell.X, currentCell.Y] = CellType.PlayerAndWareHouse;
-                    map.map[nextCell.X, nextCell.Y] = CellType.Box;
-                }
-                if (map.map[nextCell.X, nextCell.Y] == CellType.Warehouse)
-                {
-                    map.map[player.X, player.Y] = CellType.Warehouse;
-                    map.map[currentCell.X, currentCell.Y] = CellType.PlayerAndWareHouse;
-                    map.map[nextCell.X, nextCell.Y] = CellType.WarehouseBox;
-                }
+                if (map[nextCell] == CellType.Empty)
+                    AssignNewMapPoints(map,
+                        Tuple.Create(player, CellType.Warehouse),
+                        Tuple.Create(currentCell, CellType.PlayerAndWareHouse),
+                        Tuple.Create(nextCell, CellType.Box));
+                if (map[nextCell] == CellType.Warehouse)
+                    AssignNewMapPoints(map, 
+                        Tuple.Create(player, CellType.Warehouse), 
+                        Tuple.Create(currentCell, CellType.PlayerAndWareHouse), 
+                        Tuple.Create(nextCell, CellType.WarehouseBox));
             }
             return map;
+        }
+
+        private static void AssignNewMapPoints(Map map, params Tuple<Point, CellType>[] values)
+        {
+            foreach (var value in values)
+                map[value.Item1] = value.Item2;
         }
 
         public static Point FindPlayer(Map map)

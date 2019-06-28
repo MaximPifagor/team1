@@ -39,19 +39,8 @@ namespace thegame.Controllers
             var dto = new MapDto();
             dto.map = mapNew.Serialize();
             dto.id = id;
-            if (Level.IsFinished(mapNew))
+            if (MoveLogic.IsFinished(mapNew))
                 dto.isFinished = true;
-            return Ok(dto);
-        }
-
-        //TODO: finish this stuff
-        [HttpPatch("{id}")]
-        public ActionResult<MapDto> PatchState([FromBody]PatchDto dto, [FromRoute] Guid id)
-        {
-            if (dto == null)
-                return BadRequest();
-            var map = repository.GetMapById(id);
-            var newMap = Service.MoveLogic.Move(dto.movement ,map);
             return Ok(dto);
         }
     }
