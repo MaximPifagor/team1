@@ -4,20 +4,6 @@ using thegame.Model;
 
 namespace thegame.Service
 {
-    
-    public class Map
-    {
-        public CellType[,] map;
-        public int width;
-        public int height;
-
-        public Map(int width, int height)
-        {
-            map = new CellType[width,height];
-            width = width;
-            height = height;
-        }
-    }
 
     public static class MoveLogic
     {

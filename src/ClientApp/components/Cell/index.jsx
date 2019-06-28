@@ -11,6 +11,6 @@ const cellTypes = {
 
 export default class Cell extends React.Component {
     render() {
-        <div className={styles['cell cell_' + cellTypes[this.props.type]]}></div>
+        return <div className={styles.cell + ' ' + styles['cell_' + cellTypes[this.props.type]]}></div>
     }
 }
