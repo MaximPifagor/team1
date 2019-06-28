@@ -11,9 +11,9 @@ const cellTypes = {
     6: 'boxOnTarget',
 }
 
-export default class Cell extends React.Component {
-    render() {
-        const size = this.props.size + '%';
-        return <div className={styles.cell + ' ' + styles['cell_' + cellTypes[this.props.type]]} style={{width: size, height: size }}></div>
-    }
+export default function Cell(props) {
+    const size = props.size + '%';
+    return (
+        <div className={`${styles.cell} ${styles[`cell_${cellTypes[props.type]}`]}`} style={{ width: size, height: size }}></div>
+    );
 }
