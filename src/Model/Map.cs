@@ -37,6 +37,11 @@ namespace thegame.Model
             this.str = str;
 
         }
+
+        public Map Clone() {
+            string st = (string)str.Clone();
+            return new Map(st,width,height);
+        }
         public string Serialize() {
             //return "1,1,1,1,1 " + "1,0,4,0,1 " + "1,0,3,0,1 " + "1,0,2,0,1 " + "1,1,1,1,1";
             StringBuilder newStr = new StringBuilder();
