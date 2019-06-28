@@ -6,9 +6,11 @@ export default class Field extends React.Component {
     render () {
         const map = this.props.map || [[]];
         const cells = [];
+        const cellSize = 100 / (map.length || 1);
+        
         map.forEach((types, yCoord) => {
             types.forEach((type, xCoord) => {
-                cells.push(<Cell type={type} key={xCoord + ':' + yCoord} />);
+                cells.push(<Cell size={cellSize} type={type} key={xCoord + ':' + yCoord} />);
             });
         });
 
