@@ -51,8 +51,8 @@ namespace thegame.Model
        
         public Map GetMap(int LevelId) {
             if (!levels.ContainsKey(LevelId))
-                return levels[0];
-            return levels[LevelId];
+                return levels[0].Clone();
+            return levels[LevelId].Clone();
         }
     }
 }
