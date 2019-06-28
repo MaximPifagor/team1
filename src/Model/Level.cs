@@ -23,7 +23,7 @@ namespace thegame.Model
         {  
                 for (var i = 0; i < map.width; i++)
                     for (var j = 0; j < map.height; j++)
-                        if (map.map[i, j] == CellType.PlayerAndWareHouse || map.map[i, j] == CellType.Warehouse || map.map[i,j] == CellType.Box)
+                        if (map.map[i,j] == CellType.Box)
                             return false;
                 return true;
             
