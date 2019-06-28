@@ -11,7 +11,8 @@ namespace thegame.Model
         Wall,
         Warehouse,
         Box,
-        Player
+        Player,
+        PlayerAndWareHouse
     }
 
     public enum Movement

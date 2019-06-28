@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using thegame.Service;
 
 namespace thegame.Controllers
 {
@@ -8,6 +9,7 @@ namespace thegame.Controllers
         [HttpGet("score")]
         public IActionResult Score()
         {
+            //MoveLogic.Move()
             return Ok(50);
         }
     }
