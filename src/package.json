@@ -26,6 +26,7 @@
     "webpack-hot-middleware": "2.18.2"
   },
   "dependencies": {
+    "@skbkontur/react-ui": "^0.52.0",
     "react": "15.6.1",
     "react-dom": "15.6.1",
     "whatwg-fetch": "^2.0.4"
