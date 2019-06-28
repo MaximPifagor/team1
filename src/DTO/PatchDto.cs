@@ -9,6 +9,5 @@ namespace thegame.DTO
     public class PatchDto
     {
         public Movement movement { get; set; }
-
     }
 }

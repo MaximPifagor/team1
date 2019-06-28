@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,54 +10,43 @@ namespace thegame.Model
     public class Map
     {
         public CellType[,] map;
-        public int width;
-        public int height;
-        private string str;
-        //public Map(int width, int height) {
-        //    this.height = height;
-        //    this.width = width;
-        //    this.map = new CellType[width, height];
-        //}
+        public readonly int Width;
+        public readonly int Height;
+        private string description;
 
-        public Map(String str, int width, int height) {
-            this.width = width;
-            this.height = height;
-            if (str.Length != width * height) {
+        public CellType this[Point p]
+        {
+            get => map[p.X, p.Y];
+            set => map[p.X, p.Y] = value;
+        }
+
+        public Map(string description, int width, int height)
+        {
+            if (description.Length != width * height)
                 throw new Exception();
-            }
+            Width = width;
+            Height = height;
             var strIndex = 0;
             map = new CellType[width, height];
-            for (int i = 0; i < width; i++) {
+            for (var i = 0; i < width; i++)
                 for (var j = 0; j < height; j++)
-                {
-                    CellType cell = (CellType)int.Parse(str[strIndex++] + "");
-                    map[i, j] = cell;
-                }
-            }
-
-            this.str = str;
-
+                    map[i, j] = (CellType) int.Parse(description[strIndex++] + "");
+            this.description = description;
         }
 
-        public Map Clone() {
-            string st = (string)str.Clone();
-            return new Map(st,width,height);
-        }
-        public string Serialize() {
-            //return "1,1,1,1,1 " + "1,0,4,0,1 " + "1,0,3,0,1 " + "1,0,2,0,1 " + "1,1,1,1,1";
-            StringBuilder newStr = new StringBuilder();
-            for (int i = 0; i < width; i++)
+        public string Serialize()
+        {
+            var newStr = new StringBuilder();
+            for (var i = 0; i < Width; i++)
             {
-               for (int j = 0; j < height; j++) {
-                    if (j != height-1)
-                        newStr.Append((int)map[i, j] + ",");
+                for (var j = 0; j < Height; j++)
+                    if (j != Height - 1)
+                        newStr.Append((int) map[i, j] + ",");
                     else
-                        newStr.Append((int)map[i, j]);
-               }
-               if(i!= width-1)
-               newStr.Append(" ");
+                        newStr.Append((int) map[i, j]);
+                if (i != Width - 1)
+                    newStr.Append(" ");
             }
-            
             return newStr.ToString();
         }
     }
