@@ -14,10 +14,15 @@ export default class App extends React.Component {
     }
 
     componentDidMount() {
-        fetch('/api/game/').then(response => {
-            if (response.ok) {
+        fetch('/api/game')
+            .then(response => {
+                if (response.ok) {
+                    return response.json();
+                }
+                return Promise.reject();
+            })
+            .then(data => {
                 /*const PLAYER_CELL_TYPE = 4;*/
-                const data = response.json();
                 let playerCoords;
                 const mapArr = data.map.split(' ').map((str, index) => {
                     const row = str.split(',');
@@ -32,25 +37,9 @@ export default class App extends React.Component {
                     id: data.id
                 });
                 return;
-            }
-            console.error('GET /get request failed');
-        });
+            });
 
         document.addEventListener('keyup', this.keyUpEventHandler);
-
-        /*this.setState({
-            map: [
-                [0, 0, 1, 1, 1, 1, 1, 0],
-                [1, 1, 1, 0, 0, 0, 1, 0],
-                [1, 4, 0, 3, 0, 0, 1, 0],
-                [1, 1, 1, 0, 3, 2, 1, 0],
-                [1, 2, 1, 1, 3, 0, 1, 0],
-                [1, 0, 1, 0, 2, 0, 1, 1],
-                [1, 3, 0, 3, 3, 3, 2, 1],
-                [1, 1, 1, 1, 1, 1, 1, 1],
-            ],
-            playerCoords: {x: 1, y: 2}
-        });*/
     }
 
     render() {
@@ -65,29 +54,35 @@ export default class App extends React.Component {
     }
 
     notifyMovement(direction) {
-        fetch('/api/game/' + this.state.id + '?movement=' + direction).then(response => {
-            if (response.ok) {
-                const data = response.json();
+        fetch('/api/game/' + this.state.id + '?movement=' + direction)
+            .then(response => {
+                if (response.ok) {
+                    return response.json();
+                }
+                return Promise.reject();
+            })
+            .then(data => {
                 let playerCoords;
                 const mapArr = data.map.split(' ').map((str, index) => str.split(','));
                 this.setState({
                     map: mapArr,
                     playerCoords
                 });
-                return;
-            }
-            console.error('GET /api/game/id?movement='+direction+' request failed');
-        });
+            });
     }
 
     keyUpEventHandler = (event) => {
+        console.dir(event);
+        console.dir(event.keyCode);
         const DIRECTIONS = {
-            38: 0,
-            39: 3,
-            40: 1,
-            37: 2
+            37: 1,
+            38: 2,
+            39: 0,
+            40: 3
         };
         const CODE = event.keyCode;
+        console.dir(CODE);
+        console.dir(DIRECTIONS.hasOwnProperty(CODE));
         if (!DIRECTIONS.hasOwnProperty(CODE)) {
             return;
         }
