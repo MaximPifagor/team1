@@ -19,16 +19,14 @@ namespace thegame.Model
             Map = new Map(map, width, height);
             PlayerPos = MoveLogic.FindPlayer(Map);
         }
-        public bool IsFinished
-        {
-            get
-            {
-                for (var i = 0; i < Map.width; i++)
-                    for (var j = 0; j < Map.height; j++)
-                        if (Map.map[i, j] == CellType.PlayerAndWareHouse || Map.map[i, j] == CellType.Warehouse || Map.map[i,j] == CellType.Box)
+        public static bool IsFinished(Map map)
+        {  
+                for (var i = 0; i < map.width; i++)
+                    for (var j = 0; j < map.height; j++)
+                        if (map.map[i, j] == CellType.PlayerAndWareHouse || map.map[i, j] == CellType.Warehouse || map.map[i,j] == CellType.Box)
                             return false;
                 return true;
-            }
+            
         }
     }
 }

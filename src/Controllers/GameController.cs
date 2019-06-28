@@ -11,12 +11,12 @@ namespace thegame.Controllers
     {
         IRepository repository;
         public GameController(IRepository repository) {
-            this.repository = repository; 
+            this.repository = repository;
         }
 
         [HttpGet("score")]
         public IActionResult Score()
-        { 
+        {
             return Ok(50);
         }
         [HttpGet]
@@ -34,6 +34,16 @@ namespace thegame.Controllers
             MapDto dto = new MapDto();
             dto.map = mapNew.Serialize();
             dto.id = id;
+            if (Level.IsFinished(mapNew))
+                dto.isFinished = true;
+            return Ok(dto);
+        }
+        [HttpPatch("{id}")]
+        public ActionResult<MapDto> PatchState([FromBody]PatchDto dto, [FromRoute] Guid id) {
+            if (dto == null)
+                return BadRequest();
+            Map map = repository.GetMapById(id);
+            Map newMap = Service.MoveLogic.Move(dto.movement ,map);
             return Ok(dto);
         }
     }
