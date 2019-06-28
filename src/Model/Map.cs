@@ -6,16 +6,16 @@ using System.Threading.Tasks;
 
 namespace thegame.Model
 {
-    public class Map
+    public class Map: IMap
     {
         public CellType[,] map;
-        public int Width;
-        public int Height;
-        private string str;
+        public readonly int Width;
+        public readonly int Height;
+        private string description;
 
-        public Map(string str, int width, int height)
+        public Map(string description, int width, int height)
         {
-            if (str.Length != width * height)
+            if (description.Length != width * height)
                 throw new Exception();
             Width = width;
             Height = height;
@@ -23,14 +23,14 @@ namespace thegame.Model
             map = new CellType[width, height];
             for (var i = 0; i < width; i++)
                 for (var j = 0; j < height; j++)
-                    map[i, j] = (CellType) int.Parse(str[strIndex++] + "");
-            this.str = str;
+                    map[i, j] = (CellType) int.Parse(description[strIndex++] + "");
+            this.description = description;
         }
 
         public Map Clone()
         {
-            //string st = (string)str.Clone();
-            return new Map(str, Width, Height);
+            //string st = (string)description.Clone();
+            return new Map(description, Width, Height);
         }
 
         public string Serialize()

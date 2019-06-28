@@ -10,7 +10,8 @@ namespace thegame.Controllers
     public class GameController : Controller
     {
         IRepository repository;
-        public GameController(IRepository repository) {
+        public GameController(IRepository repository)
+        {
             this.repository = repository;
         }
 
@@ -19,11 +20,11 @@ namespace thegame.Controllers
         {
             return Ok(50);
         }
+
         [HttpGet]
         public ActionResult<MapDto> Get(int? level) {
             if (level == null)
                 level = 0;
-            
             var mapDto = repository.CreateMap((int)level);
             return Ok(mapDto);
         }
@@ -42,6 +43,7 @@ namespace thegame.Controllers
                 dto.isFinished = true;
             return Ok(dto);
         }
+
         //TODO: finish this stuff
         [HttpPatch("{id}")]
         public ActionResult<MapDto> PatchState([FromBody]PatchDto dto, [FromRoute] Guid id)
