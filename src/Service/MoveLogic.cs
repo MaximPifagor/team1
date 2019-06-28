@@ -7,18 +7,18 @@ namespace thegame.Service
     
     public class Map
     {
-        public CellType[,] Table;
-        public int X;
-        public int Y;
+        public CellType[,] map;
+        public int width;
+        public int height;
 
-        public Map(int x, int y)
+        public Map(int width, int height)
         {
-            Table = new CellType[x,y];
-            X = x;
-            Y = y;
+            map = new CellType[width,height];
+            width = width;
+            height = height;
         }
     }
-    
+
     public static class MoveLogic
     {
         static public Map Move(Movement movement, Map map)
@@ -27,12 +27,12 @@ namespace thegame.Service
             var currentCell = CurrentCell(movement, player);
             var resultMap = map;
 
-            if (map.Table[currentCell.X, currentCell.Y] == CellType.Wall)
+            if (map.map[currentCell.X, currentCell.Y] == CellType.Wall)
             {
                 return map;
             }
 
-            if (map.Table[player.X, player.Y] == CellType.Player)
+            if (map.map[player.X, player.Y] == CellType.Player)
             {
                 resultMap = SimplePlayerMove(player, currentCell, map, movement);
             }
@@ -46,67 +46,67 @@ namespace thegame.Service
 
         private static Map PlayerWarehouseMove(Point player, Point currentCell, Map map, Movement movement)
         {
-            if (map.Table[currentCell.X, currentCell.Y] == CellType.Empty)
+            if (map.map[currentCell.X, currentCell.Y] == CellType.Empty)
             {
-                map.Table[currentCell.X, currentCell.Y] = CellType.Player;
-                map.Table[player.X, player.Y] = CellType.Warehouse;
+                map.map[currentCell.X, currentCell.Y] = CellType.Player;
+                map.map[player.X, player.Y] = CellType.Warehouse;
             }
             
-            if (map.Table[currentCell.X, currentCell.Y] == CellType.Warehouse)
+            if (map.map[currentCell.X, currentCell.Y] == CellType.Warehouse)
             {
-                map.Table[currentCell.X, currentCell.Y] = CellType.PlayerAndWareHouse;
-                map.Table[player.X, player.Y] = CellType.Warehouse;
+                map.map[currentCell.X, currentCell.Y] = CellType.PlayerAndWareHouse;
+                map.map[player.X, player.Y] = CellType.Warehouse;
             }
                 
-            if (map.Table[currentCell.X, currentCell.Y] == CellType.Warehouse)
+            if (map.map[currentCell.X, currentCell.Y] == CellType.Warehouse)
             {
                 var nextCell = CurrentCell(movement, currentCell);
                     
-                if (map.Table[nextCell.X, nextCell.Y] == CellType.Wall
-                    || map.Table[nextCell.X, nextCell.Y] == CellType.Box
-                    || map.Table[nextCell.X, nextCell.Y] == CellType.WarehouseBox)
+                if (map.map[nextCell.X, nextCell.Y] == CellType.Wall
+                    || map.map[nextCell.X, nextCell.Y] == CellType.Box
+                    || map.map[nextCell.X, nextCell.Y] == CellType.WarehouseBox)
                 {
                     return map;
                 }
                     
-                if (map.Table[nextCell.X, nextCell.Y] == CellType.Empty)
+                if (map.map[nextCell.X, nextCell.Y] == CellType.Empty)
                 {
-                    map.Table[player.X, player.Y] = CellType.Warehouse;
-                    map.Table[currentCell.X, currentCell.Y] = CellType.Player;
-                    map.Table[nextCell.X, nextCell.Y] = CellType.Box;
+                    map.map[player.X, player.Y] = CellType.Warehouse;
+                    map.map[currentCell.X, currentCell.Y] = CellType.Player;
+                    map.map[nextCell.X, nextCell.Y] = CellType.Box;
                 }
                     
-                if (map.Table[nextCell.X, nextCell.Y] == CellType.Warehouse)
+                if (map.map[nextCell.X, nextCell.Y] == CellType.Warehouse)
                 {
-                    map.Table[player.X, player.Y] = CellType.Warehouse;
-                    map.Table[currentCell.X, currentCell.Y] = CellType.Player;
-                    map.Table[nextCell.X, nextCell.Y] = CellType.WarehouseBox;
+                    map.map[player.X, player.Y] = CellType.Warehouse;
+                    map.map[currentCell.X, currentCell.Y] = CellType.Player;
+                    map.map[nextCell.X, nextCell.Y] = CellType.WarehouseBox;
                 }
             }
             
-            if (map.Table[currentCell.X, currentCell.Y] == CellType.WarehouseBox)
+            if (map.map[currentCell.X, currentCell.Y] == CellType.WarehouseBox)
             {
                 var nextCell = CurrentCell(movement, currentCell);
                     
-                if (map.Table[nextCell.X, nextCell.Y] == CellType.Wall
-                    || map.Table[nextCell.X, nextCell.Y] == CellType.Box
-                    || map.Table[nextCell.X, nextCell.Y] == CellType.WarehouseBox)
+                if (map.map[nextCell.X, nextCell.Y] == CellType.Wall
+                    || map.map[nextCell.X, nextCell.Y] == CellType.Box
+                    || map.map[nextCell.X, nextCell.Y] == CellType.WarehouseBox)
                 {
                     return map;
                 }
                     
-                if (map.Table[nextCell.X, nextCell.Y] == CellType.Empty)
+                if (map.map[nextCell.X, nextCell.Y] == CellType.Empty)
                 {
-                    map.Table[player.X, player.Y] = CellType.Warehouse;
-                    map.Table[currentCell.X, currentCell.Y] = CellType.PlayerAndWareHouse;
-                    map.Table[nextCell.X, nextCell.Y] = CellType.Box;
+                    map.map[player.X, player.Y] = CellType.Warehouse;
+                    map.map[currentCell.X, currentCell.Y] = CellType.PlayerAndWareHouse;
+                    map.map[nextCell.X, nextCell.Y] = CellType.Box;
                 }
                     
-                if (map.Table[nextCell.X, nextCell.Y] == CellType.Warehouse)
+                if (map.map[nextCell.X, nextCell.Y] == CellType.Warehouse)
                 {
-                    map.Table[player.X, player.Y] = CellType.Warehouse;
-                    map.Table[currentCell.X, currentCell.Y] = CellType.PlayerAndWareHouse;
-                    map.Table[nextCell.X, nextCell.Y] = CellType.WarehouseBox;
+                    map.map[player.X, player.Y] = CellType.Warehouse;
+                    map.map[currentCell.X, currentCell.Y] = CellType.PlayerAndWareHouse;
+                    map.map[nextCell.X, nextCell.Y] = CellType.WarehouseBox;
                 }
             }
 
@@ -115,67 +115,67 @@ namespace thegame.Service
 
         private static Map SimplePlayerMove(Point player, Point currentCell, Map map, Movement movement)
         {
-            if (map.Table[currentCell.X, currentCell.Y] == CellType.Empty)
+            if (map.map[currentCell.X, currentCell.Y] == CellType.Empty)
             {
-                map.Table[currentCell.X, currentCell.Y] = CellType.Player;
-                map.Table[player.X, player.Y] = CellType.Empty;
+                map.map[currentCell.X, currentCell.Y] = CellType.Player;
+                map.map[player.X, player.Y] = CellType.Empty;
             }
             
-            if (map.Table[currentCell.X, currentCell.Y] == CellType.Warehouse)
+            if (map.map[currentCell.X, currentCell.Y] == CellType.Warehouse)
             {
-                map.Table[currentCell.X, currentCell.Y] = CellType.PlayerAndWareHouse;
-                map.Table[player.X, player.Y] = CellType.Empty;
+                map.map[currentCell.X, currentCell.Y] = CellType.PlayerAndWareHouse;
+                map.map[player.X, player.Y] = CellType.Empty;
             }
             
-            if (map.Table[currentCell.X, currentCell.Y] == CellType.Warehouse)
+            if (map.map[currentCell.X, currentCell.Y] == CellType.Warehouse)
             {
                 var nextCell = CurrentCell(movement, currentCell);
                     
-                if (map.Table[nextCell.X, nextCell.Y] == CellType.Wall
-                    || map.Table[nextCell.X, nextCell.Y] == CellType.Box
-                    || map.Table[nextCell.X, nextCell.Y] == CellType.WarehouseBox)
+                if (map.map[nextCell.X, nextCell.Y] == CellType.Wall
+                    || map.map[nextCell.X, nextCell.Y] == CellType.Box
+                    || map.map[nextCell.X, nextCell.Y] == CellType.WarehouseBox)
                 {
                     return map;
                 }
                     
-                if (map.Table[nextCell.X, nextCell.Y] == CellType.Empty)
+                if (map.map[nextCell.X, nextCell.Y] == CellType.Empty)
                 {
-                    map.Table[player.X, player.Y] = CellType.Empty;
-                    map.Table[currentCell.X, currentCell.Y] = CellType.Player;
-                    map.Table[nextCell.X, nextCell.Y] = CellType.Box;
+                    map.map[player.X, player.Y] = CellType.Empty;
+                    map.map[currentCell.X, currentCell.Y] = CellType.Player;
+                    map.map[nextCell.X, nextCell.Y] = CellType.Box;
                 }
                     
-                if (map.Table[nextCell.X, nextCell.Y] == CellType.Warehouse)
+                if (map.map[nextCell.X, nextCell.Y] == CellType.Warehouse)
                 {
-                    map.Table[player.X, player.Y] = CellType.Empty;
-                    map.Table[currentCell.X, currentCell.Y] = CellType.Player;
-                    map.Table[nextCell.X, nextCell.Y] = CellType.WarehouseBox;
+                    map.map[player.X, player.Y] = CellType.Empty;
+                    map.map[currentCell.X, currentCell.Y] = CellType.Player;
+                    map.map[nextCell.X, nextCell.Y] = CellType.WarehouseBox;
                 }
             }
             
-            if (map.Table[currentCell.X, currentCell.Y] == CellType.WarehouseBox)
+            if (map.map[currentCell.X, currentCell.Y] == CellType.WarehouseBox)
             {
                 var nextCell = CurrentCell(movement, currentCell);
                     
-                if (map.Table[nextCell.X, nextCell.Y] == CellType.Wall
-                    || map.Table[nextCell.X, nextCell.Y] == CellType.Box
-                    || map.Table[nextCell.X, nextCell.Y] == CellType.WarehouseBox)
+                if (map.map[nextCell.X, nextCell.Y] == CellType.Wall
+                    || map.map[nextCell.X, nextCell.Y] == CellType.Box
+                    || map.map[nextCell.X, nextCell.Y] == CellType.WarehouseBox)
                 {
                     return map;
                 }
                     
-                if (map.Table[nextCell.X, nextCell.Y] == CellType.Empty)
+                if (map.map[nextCell.X, nextCell.Y] == CellType.Empty)
                 {
-                    map.Table[player.X, player.Y] = CellType.Empty;
-                    map.Table[currentCell.X, currentCell.Y] = CellType.PlayerAndWareHouse;
-                    map.Table[nextCell.X, nextCell.Y] = CellType.Box;
+                    map.map[player.X, player.Y] = CellType.Empty;
+                    map.map[currentCell.X, currentCell.Y] = CellType.PlayerAndWareHouse;
+                    map.map[nextCell.X, nextCell.Y] = CellType.Box;
                 }
                     
-                if (map.Table[nextCell.X, nextCell.Y] == CellType.Warehouse)
+                if (map.map[nextCell.X, nextCell.Y] == CellType.Warehouse)
                 {
-                    map.Table[player.X, player.Y] = CellType.Empty;
-                    map.Table[currentCell.X, currentCell.Y] = CellType.PlayerAndWareHouse;
-                    map.Table[nextCell.X, nextCell.Y] = CellType.WarehouseBox;
+                    map.map[player.X, player.Y] = CellType.Empty;
+                    map.map[currentCell.X, currentCell.Y] = CellType.PlayerAndWareHouse;
+                    map.map[nextCell.X, nextCell.Y] = CellType.WarehouseBox;
                 }
             }
 
@@ -184,11 +184,11 @@ namespace thegame.Service
 
         static Point FindPlayer(Map map)
         {
-            for (int x = 0; x < map.X; x++)
+            for (int x = 0; x < map.width; x++)
             {
-                for (int y = 0; y < map.Y; y++)
+                for (int y = 0; y < map.height; y++)
                 {
-                    if (map.Table[x, y] == CellType.Player || map.Table[x, y] == CellType.PlayerAndWareHouse)
+                    if (map.map[x, y] == CellType.Player || map.map[x, y] == CellType.PlayerAndWareHouse)
                     {
                         return new Point(x, y);
                     }
