@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using thegame.Model;
 
 namespace thegame
 {
@@ -29,6 +30,8 @@ namespace thegame
                     options.SerializerSettings.DefaultValueHandling = DefaultValueHandling.Populate;
                 })
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddSingleton<IRepository, MapRepository>();
+
 
         }
 

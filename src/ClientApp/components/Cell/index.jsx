@@ -7,6 +7,8 @@ const cellTypes = {
     2: 'target',
     3: 'box',
     4: 'player',
+    5: 'player',
+    6: 'boxOnTarget',
 }
 
 export default class Cell extends React.Component {
