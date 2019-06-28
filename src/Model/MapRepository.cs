@@ -10,12 +10,12 @@ namespace thegame.Model
     {
         private Dictionary<Guid, Map> repository;
 
-        public MapRepository() {
+        public MapRepository()
+        {
             repository = new Dictionary<Guid, Map>();
         }
         public MapDto CreateMap(int LevelId)
         {
-
             Map map = GetMap(LevelId);
             var id = Guid.NewGuid();
             repository[id] = map;

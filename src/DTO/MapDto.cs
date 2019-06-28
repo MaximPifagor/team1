@@ -8,9 +8,8 @@ namespace thegame.DTO
 {
     public class MapDto
     {
-        public string map { get; set; } 
+        public string map { get; set; }
         public Guid id { get; set; }
-
         public bool isFinished { get; set; }
     }
 }
