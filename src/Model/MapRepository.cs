@@ -13,9 +13,9 @@ namespace thegame.Model
         public MapRepository() {
             repository = new Dictionary<Guid, Map>();
         }
-        public MapDto CreateMap()
+        public MapDto CreateMap(int LevelId)
         {
-            Map map = new Map("11111"+ "10401" +"10301"+ "10201"+ "11111",5,5);
+            Map map = GetMap(LevelId);
             var id = Guid.NewGuid();
             repository[id] = map;
             MapDto dto = new MapDto();
@@ -31,6 +31,19 @@ namespace thegame.Model
                 return null;
             return repository[id];
 
+        }
+
+        static Dictionary<int, Map> levels = new Dictionary<int, Map>() {
+            { 0, new Map("11111" + "10401" + "10301" + "10201" + "11111", 5, 5) },
+            { 1, new Map("111111111"+ "111000321" + "124300001" + "111032031" + "121030021" + "101020031" + 
+                "130033221"+ "100020001" +"111111111",9,9)}
+        };
+
+       
+        public Map GetMap(int LevelId) {
+            if (!levels.ContainsKey(LevelId))
+                return levels[0];
+            return levels[LevelId];
         }
     }
 }

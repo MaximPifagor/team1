@@ -20,8 +20,11 @@ namespace thegame.Controllers
             return Ok(50);
         }
         [HttpGet]
-        public ActionResult<MapDto> Get() {
-            MapDto mapDto = repository.CreateMap();
+        public ActionResult<MapDto> Get(int? level) {
+            if (level == null)
+                level = 0;
+            
+            MapDto mapDto = repository.CreateMap((int)level);
             return Ok(mapDto);
         }
 
